@@ -20,7 +20,7 @@ class Settings(BaseSettings):
 
     # LLM provider (Gemini AI Studio free tier)
     gemini_api_key: str = Field(description="Google AI Studio API key")
-    llm_model: str = Field(default="gemini-2.5-flash", description="Flash-class model id")
+    llm_model: str = Field(default="gemini-3.6-flash", description="Flash-class model id")
     llm_rate_per_min: int = Field(
         default=15, ge=1, description="Client-side request budget per minute"
     )

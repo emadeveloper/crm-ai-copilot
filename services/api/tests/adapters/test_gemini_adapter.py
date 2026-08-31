@@ -126,7 +126,7 @@ class TestAnalyze:
         # free-tier budget. `from_client` only stores the client, so a stub is enough here.
         adapter = GeminiAIStudioAdapter.from_client(
             object(),  # type: ignore[arg-type]
-            model="gemini-2.5-flash",
+            model="gemini-3.6-flash",
             rate_per_min=15,
         )
         limiter = adapter._limiter

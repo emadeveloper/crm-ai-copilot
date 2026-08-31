@@ -1,0 +1,65 @@
+schema: spec-driven
+
+context: |
+  Project: CRM AI Copilot — AI-powered lead qualification/enrichment service that sits
+  between lead-capture forms and a CRM (HubSpot free tier).
+  Target stack: Python 3.12 · FastAPI · Strawberry (GraphQL) · SQLAlchemy 2 + Alembic ·
+  Pydantic v2 · Postgres. Frontend: React + Vite + TypeScript (installable PWA).
+  Architecture: hexagonal / ports & adapters. Domain knows only ports:
+  LLMProvider (GeminiAIStudioAdapter now, VertexAIAdapter documented),
+  CrmGateway (HubSpotCrmAdapter), LeadRepository (Postgres), TaskQueue (in-proc → Cloud Tasks).
+  Repo: monorepo — services/api (Python), apps/web (React), packages/shared (TS types).
+  Deploy: Render (API + managed Postgres), Vercel (web). CI: GitHub Actions.
+  Testing (target): pytest + pytest-cov + httpx, ruff, mypy. Greenfield — not yet scaffolded.
+  Status: greenfield, no code written yet. SDD planning first.
+
+strict_tdd: true  # enabled from Phase 2 (domain); pytest scaffolded in task 1.2
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Identify affected modules/packages
+    - Map every scoped item back to a bullet in the target job posting where relevant
+  specs:
+    - Use Given/When/Then format for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+  design:
+    - Include sequence diagrams for complex flows
+    - Document architecture decisions with rationale
+    - Keep the domain free of framework/vendor imports (hexagonal boundary is non-negotiable)
+  tasks:
+    - Group tasks by phase (infrastructure, implementation, testing)
+    - Use hierarchical numbering (1.1, 1.2, etc.)
+    - Keep tasks small enough to complete in one session
+  apply:
+    - Follow existing code patterns and conventions
+    - Load relevant coding skills for the project stack
+  verify:
+    - Run tests if test infrastructure exists
+    - Compare implementation against every spec scenario
+  archive:
+    - Warn before merging destructive deltas (large removals)
+
+testing:
+  strict_tdd: true
+  detected: 2026-08-30
+  updated: 2026-08-30  # pytest scaffolded (task 1.2); Strict TDD active from Phase 2
+  test_runner:
+    command: "cd services/api && uv run pytest"
+    framework: pytest
+  layers:
+    unit: { available: true, tool: "pytest + pytest-asyncio" }
+    integration: { available: true, tool: "pytest-postgresql + httpx.AsyncClient" }
+    e2e: { available: false, tool: null }  # Playwright deferred to Phase 2 of the roadmap
+  coverage:
+    available: false
+    command: null  # pytest-cov not yet added; add with coverage gate in Phase 7/8
+  quality_tools:
+    linter: { available: true, command: "cd services/api && uv run ruff check ." }
+    type_checker: { available: true, command: "cd services/api && uv run mypy ." }
+    formatter: { available: true, command: "cd services/api && uv run ruff format ." }
+  note: >
+    Backend test infra scaffolded in task 1.2 (pytest, pytest-asyncio, pytest-postgresql, respx).
+    Strict TDD Mode is ACTIVE for the Python backend from Phase 2 (domain) onward: RED (failing
+    test first) -> GREEN (minimal impl) -> REFACTOR, with a TDD Cycle Evidence table in
+    apply-progress. Frontend (apps/web) test infra lands in Phase 6 (vitest + Testing Library + MSW).

@@ -1,0 +1,643 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CRM AI Copilot",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leads": {
+      "post": {
+        "tags": [
+          "leads"
+        ],
+        "summary": "Create Lead",
+        "operationId": "create_lead_leads_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeadIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadCreatedOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "leads"
+        ],
+        "summary": "List Leads",
+        "operationId": "list_leads_leads_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeadOut"
+                  },
+                  "title": "Response List Leads Leads Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leads/{lead_id}": {
+      "get": {
+        "tags": [
+          "leads"
+        ],
+        "summary": "Get Lead",
+        "operationId": "get_lead_leads__lead_id__get",
+        "parameters": [
+          {
+            "name": "lead_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lead Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/graphql": {
+      "get": {
+        "summary": "Handle Http Get",
+        "operationId": "handle_http_get_graphql_get",
+        "responses": {
+          "200": {
+            "description": "The GraphiQL integrated development environment.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Not found if GraphiQL or query via GET are not enabled."
+          }
+        }
+      },
+      "post": {
+        "summary": "Handle Http Post",
+        "operationId": "handle_http_post_graphql_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ContactIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email"
+        ],
+        "title": "ContactIn"
+      },
+      "ContactOut": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "company",
+          "role",
+          "message"
+        ],
+        "title": "ContactOut"
+      },
+      "EnrichmentOut": {
+        "properties": {
+          "industry": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Industry"
+          },
+          "company_size_band": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Size Band"
+          },
+          "seniority": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seniority"
+          },
+          "intent_signals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Intent Signals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "industry",
+          "company_size_band",
+          "seniority",
+          "intent_signals"
+        ],
+        "title": "EnrichmentOut"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LeadCreatedOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "deduplicated": {
+            "type": "boolean",
+            "title": "Deduplicated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "deduplicated"
+        ],
+        "title": "LeadCreatedOut"
+      },
+      "LeadIn": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/ContactIn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "contact"
+        ],
+        "title": "LeadIn"
+      },
+      "LeadOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "failure_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failure Reason"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/ContactOut"
+          },
+          "enrichment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EnrichmentOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "score": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScoreOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reply_draft": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReplyDraftOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sync_state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncStateOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "status",
+          "failure_reason",
+          "created_at",
+          "updated_at",
+          "contact",
+          "enrichment",
+          "score",
+          "reply_draft",
+          "sync_state"
+        ],
+        "title": "LeadOut"
+      },
+      "ReplyDraftOut": {
+        "properties": {
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subject",
+          "body"
+        ],
+        "title": "ReplyDraftOut"
+      },
+      "ScoreOut": {
+        "properties": {
+          "value": {
+            "type": "integer",
+            "title": "Value"
+          },
+          "band": {
+            "type": "string",
+            "title": "Band"
+          },
+          "rationale": {
+            "type": "string",
+            "title": "Rationale"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "band",
+          "rationale"
+        ],
+        "title": "ScoreOut"
+      },
+      "SyncStateOut": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "crm_contact_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Crm Contact Id"
+          },
+          "failure_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failure Reason"
+          },
+          "synced_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synced At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "crm_contact_id",
+          "failure_reason",
+          "synced_at"
+        ],
+        "title": "SyncStateOut"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

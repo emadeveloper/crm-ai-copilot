@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 import httpx
 
+from app.adapters.crm.disabled import DisabledCrmGateway
 from app.adapters.crm.hubspot import HubSpotPrivateAppAdapter
 from app.adapters.llm.gemini import GeminiAIStudioAdapter
 from app.adapters.persistence.repository import SqlLeadRepository
@@ -30,18 +31,32 @@ class Container:
     llm: LLMProvider
     crm: CrmGateway
     _closables: list[httpx.AsyncClient]
+    crm_enabled: bool = True
 
     @classmethod
     def from_settings(cls, settings: Settings) -> Container:  # pragma: no cover -- real wiring
         from google import genai  # noqa: PLC0415 -- optional heavy import, only for the real wiring
 
         sessionmaker = get_sessionmaker()
-        http = httpx.AsyncClient(
-            base_url=_HUBSPOT_BASE_URL,
-            headers={"Authorization": f"Bearer {settings.hubspot_private_app_token}"},
-            timeout=15.0,
-        )
         genai_client = genai.Client(api_key=settings.gemini_api_key)
+
+        token = settings.hubspot_private_app_token
+        crm: CrmGateway
+        closables: list[httpx.AsyncClient]
+        if token:
+            http = httpx.AsyncClient(
+                base_url=_HUBSPOT_BASE_URL,
+                headers={"Authorization": f"Bearer {token}"},
+                timeout=15.0,
+            )
+            crm = HubSpotPrivateAppAdapter(http)
+            closables = [http]
+            crm_enabled = True
+        else:
+            crm = DisabledCrmGateway()
+            closables = []
+            crm_enabled = False
+
         return cls(
             settings=settings,
             leads=SqlLeadRepository(sessionmaker),
@@ -51,8 +66,9 @@ class Container:
                 model=settings.llm_model,
                 rate_per_min=settings.llm_rate_per_min,
             ),
-            crm=HubSpotPrivateAppAdapter(http),
-            _closables=[http],
+            crm=crm,
+            _closables=closables,
+            crm_enabled=crm_enabled,
         )
 
     # --- use case providers -------------------------------------------------
@@ -66,6 +82,7 @@ class Container:
             queue=self.queue,
             llm=self.llm,
             max_attempts=self.settings.max_task_attempts,
+            sync_enabled=self.crm_enabled,
         )
 
     def sync_lead_to_crm(self) -> SyncLeadToCrm:

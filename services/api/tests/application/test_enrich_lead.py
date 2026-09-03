@@ -43,6 +43,7 @@ def _enrich(
     sleep: RecordingSleep,
     *,
     max_attempts: int = 3,
+    sync_enabled: bool = True,
 ) -> EnrichLead:
     return EnrichLead(
         leads=repo,
@@ -52,6 +53,7 @@ def _enrich(
         backoff_base=timedelta(seconds=2),
         sleep=sleep,
         clock=fixed_clock(NOW),
+        sync_enabled=sync_enabled,
     )
 
 
@@ -86,6 +88,21 @@ async def test_happy_path_persists_analysis_qualifies_and_queues_sync(
     assert aggregate.score is not None and aggregate.score.value == 82
     assert aggregate.reply_draft is not None
     assert queue.enqueued == [(TaskKind.SYNC, lead.id)]
+
+
+async def test_sync_disabled_qualifies_without_queuing_sync(
+    repo: InMemoryLeadRepository, queue: InMemoryTaskQueue, sleep: RecordingSleep
+) -> None:
+    lead = await _received_lead(repo)
+    llm = FakeLLMProvider(analysis=sample_analysis())
+
+    await _enrich(repo, queue, llm, sleep, sync_enabled=False).execute(lead.id)
+
+    aggregate = await repo.get_aggregate(lead.id)
+    assert aggregate is not None
+    assert aggregate.lead.status is LeadStatus.QUALIFIED
+    assert aggregate.score is not None and aggregate.reply_draft is not None
+    assert queue.enqueued == []
 
 
 async def test_retries_with_backoff_then_succeeds(

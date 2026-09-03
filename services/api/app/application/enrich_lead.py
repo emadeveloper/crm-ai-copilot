@@ -38,6 +38,7 @@ class EnrichLead:
         backoff_base: timedelta = _DEFAULT_BACKOFF_BASE,
         sleep: Sleep = _real_sleep,
         clock: Callable[[], datetime] = _utcnow,
+        sync_enabled: bool = True,
     ) -> None:
         self._leads = leads
         self._queue = queue
@@ -46,6 +47,7 @@ class EnrichLead:
         self._backoff_base = backoff_base.total_seconds()
         self._sleep = sleep
         self._clock = clock
+        self._sync_enabled = sync_enabled
 
     async def execute(self, lead_id: LeadId) -> None:
         lead = await self._leads.get(lead_id)
@@ -80,4 +82,5 @@ class EnrichLead:
         await self._leads.save_analysis(lead_id, analysis)
         lead.advance_to(LeadStatus.QUALIFIED, now=self._clock())
         await self._leads.save(lead)
-        await self._queue.enqueue(TaskKind.SYNC, lead_id)
+        if self._sync_enabled:
+            await self._queue.enqueue(TaskKind.SYNC, lead_id)

@@ -25,8 +25,11 @@ class Settings(BaseSettings):
         default=15, ge=1, description="Client-side request budget per minute"
     )
 
-    # CRM gateway (HubSpot Private App)
-    hubspot_private_app_token: str = Field(description="HubSpot Private App access token")
+    # CRM gateway (HubSpot Private App) — optional; unset ⇒ CRM sync disabled
+    hubspot_private_app_token: str | None = Field(
+        default=None,
+        description="HubSpot Private App access token; unset ⇒ CRM sync disabled",
+    )
 
     # Pipeline worker
     max_task_attempts: int = Field(default=5, ge=1)

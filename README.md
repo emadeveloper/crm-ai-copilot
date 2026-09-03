@@ -106,7 +106,7 @@ pnpm --filter web exec vitest run --coverage
 
 | Piece | Host | Notes |
 | --- | --- | --- |
-| API + worker | **Render** free web service (Docker) | `render.yaml` blueprint; `alembic upgrade head` runs on boot; `healthCheckPath: /health` |
+| API + worker | **Render** free web service (Docker) | `render.yaml` blueprint; `alembic upgrade head` runs on boot; `healthCheckPath: /health`. `HUBSPOT_PRIVATE_APP_TOKEN` is optional — leave it unset and CRM sync is disabled (no SYNC tasks are enqueued) |
 | Database | **Neon** serverless Postgres | scales to zero, no 30-day expiry; set `DATABASE_URL` to the pooled `postgresql+asyncpg://…` URL |
 | Web | **Vercel** | `apps/web/vercel.json`; set `VITE_API_URL` to the Render URL |
 | CI | **GitHub Actions** | `.github/workflows/ci.yml` — backend lint/types/tests, frontend types/tests/build |

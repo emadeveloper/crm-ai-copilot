@@ -19,7 +19,7 @@ services:
       - key: GEMINI_API_KEY
         sync: false
       - key: HUBSPOT_PRIVATE_APP_TOKEN
-        sync: false
+        sync: false # optional — leave unset to disable HubSpot CRM sync
       # --- tunables ---
       - key: CORS_ORIGINS
         sync: false # the Vercel URL(s), comma-separated, e.g. https://crm-ai-copilot.vercel.app

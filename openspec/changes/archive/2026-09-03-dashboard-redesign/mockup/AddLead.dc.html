@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #c9f24a; text-decoration: none; }
+    a:hover { color: #dcff7a; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 980px; background: #0a0b0d; color: #e7e9ec; font-family: 'Hanken Grotesk', system-ui, sans-serif; display: flex; flex-direction: column; position: relative; overflow: hidden;">
+
+  <div style="position: absolute; inset: 0; pointer-events: none; opacity: 0.04; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;);"></div>
+
+  <header style="height: 56px; flex-shrink: 0; border-bottom: 1px solid #23262e; display: flex; align-items: center; gap: 20px; padding: 0 22px; position: relative; z-index: 2;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 13L9 2l7 11H2z" fill="#c9f24a"/><rect x="7" y="9" width="4" height="4" fill="#0a0b0d"/></svg>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.16em;">CRM&nbsp;AI&nbsp;COPILOT</span>
+    </div>
+    <span style="font-size: 13px; color: #8a909c;">AI qualifies every inbound lead and syncs it to HubSpot.</span>
+    <div style="margin-left: auto;">
+      <button style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #0a0b0d; background: #c9f24a; border: 1px solid #c9f24a; border-radius: 3px; padding: 6px 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+        <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5h6" stroke="#0a0b0d" stroke-width="1.6"/></svg>Close
+      </button>
+    </div>
+  </header>
+
+  <div style="flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 440px; min-height: 0; position: relative; z-index: 1;">
+
+    <section style="min-width: 0; display: flex; flex-direction: column; border-right: 1px solid #23262e; position: relative;">
+
+      <!-- expanded add-lead panel -->
+      <div style="margin: 16px 22px 0; background: #0f1116; border: 1px solid #2c3038; border-radius: 6px; padding: 20px 22px; box-shadow: 0 24px 60px -20px #000; position: relative; z-index: 2;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #8a909c; margin-bottom: 16px;">New lead</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px;">
+          <label style="display: flex; flex-direction: column; gap: 5px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #565c68;">Name</span>
+            <input value="Miguel Santos" style="font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; color: #e7e9ec; background: #15171d; border: 1px solid #2c3038; border-radius: 4px; padding: 9px 11px;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 5px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #565c68;">Email</span>
+            <input value="miguel@example.com" style="font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; color: #e7e9ec; background: #15171d; border: 1px solid #c9f24a; border-radius: 4px; padding: 9px 11px; box-shadow: 0 0 0 3px #c9f24a22;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 5px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #565c68;">Company</span>
+            <input value="Rivera Logistics" style="font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; color: #e7e9ec; background: #15171d; border: 1px solid #2c3038; border-radius: 4px; padding: 9px 11px;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 5px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #565c68;">Role</span>
+            <input value="Head of Operations" style="font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; color: #e7e9ec; background: #15171d; border: 1px solid #2c3038; border-radius: 4px; padding: 9px 11px;">
+          </label>
+          <label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 5px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #565c68;">Message</span>
+            <textarea style="font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; color: #e7e9ec; background: #15171d; border: 1px solid #2c3038; border-radius: 4px; padding: 9px 11px; min-height: 58px; resize: none;">We run three fulfilment centres and demo requests pile up. What does onboarding look like?</textarea>
+          </label>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 18px;">
+          <button style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #0a0b0d; background: #c9f24a; border: 0; border-radius: 4px; padding: 9px 18px; cursor: pointer;">Add lead</button>
+          <button style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a909c; background: transparent; border: 1px solid #2c3038; border-radius: 4px; padding: 9px 18px; cursor: pointer;">Cancel</button>
+        </div>
+      </div>
+
+      <!-- dimmed queue behind -->
+      <div style="opacity: 0.35; pointer-events: none; padding: 18px 22px 0;">
+        <div style="display: flex; align-items: baseline; gap: 12px; padding-bottom: 12px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #8a909c;">Lead queue</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #565c68;">14 leads · newest first</span>
+        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tbody>
+            <tr><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23; font-size: 14px;">Margaret Hamilton</td><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23; font-size: 13px; color: #8a909c;">Apollo Guidance</td><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #a98bf5; border: 1px solid #a98bf555; border-radius: 2px; padding: 2px 7px;">syncing</span></td></tr>
+            <tr><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23; font-size: 14px;">Alan Turing</td><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23; font-size: 13px; color: #8a909c;">Bletchley Ltd</td><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #54d98a; border: 1px solid #54d98a55; border-radius: 2px; padding: 2px 7px;">synced</span></td></tr>
+            <tr><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23; font-size: 14px;">Katherine Johnson</td><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23; font-size: 13px; color: #8a909c;">Orbital Mechanics</td><td style="padding: 13px 10px; border-bottom: 1px solid #1a1d23;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #4cc2f0; border: 1px solid #4cc2f055; border-radius: 2px; padding: 2px 7px;">enriching</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside style="min-width: 0; padding: 20px 22px; display: flex; align-items: center; justify-content: center;">
+      <div style="text-align: center; color: #565c68; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; line-height: 1.8;">SELECT A LEAD<br>TO SEE ITS AI ANALYSIS</div>
+    </aside>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

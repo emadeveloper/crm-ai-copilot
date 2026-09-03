@@ -5,6 +5,14 @@ export const leadsKey = ["leads"] as const;
 export const leadKey = (id: string) => ["lead", id] as const;
 
 export const REFETCH_MS = 5000;
+export const DETAIL_REFETCH_MS = 3000;
+
+const TERMINAL = new Set(["synced", "failed"]);
+
+/** Poll the open lead detail until the lead reaches a terminal state. */
+export function detailRefetchInterval(status: string | undefined): number | false {
+  return status !== undefined && TERMINAL.has(status) ? false : DETAIL_REFETCH_MS;
+}
 
 export function useLeads() {
   return useQuery({ queryKey: leadsKey, queryFn: fetchLeads, refetchInterval: REFETCH_MS });
@@ -15,6 +23,7 @@ export function useLead(id: string) {
     queryKey: leadKey(id),
     queryFn: () => fetchLead(id),
     enabled: id.length > 0,
+    refetchInterval: (query) => detailRefetchInterval(query.state.data?.status),
   });
 }
 

@@ -1,117 +1,100 @@
-:root {
-  color-scheme: light dark;
-  --bg: #0f172a;
-  --panel: #1e293b;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --accent: #38bdf8;
-  --border: #334155;
+@import "tailwindcss";
+
+/* ---- operational-precision design tokens (Tailwind v4 @theme) ---- */
+@theme {
+  --color-bg: #0a0b0d;
+  --color-panel: #0f1116;
+  --color-raised: #15171d;
+  --color-line: #23262e;
+  --color-line-soft: #1a1d23;
+  --color-ink: #e7e9ec;
+  --color-muted: #8a909c;
+  --color-dim: #565c68;
+  --color-accent: #c9f24a;
+  --color-accent-dim: #8fbf2e;
+
+  --color-st-received: #767c88;
+  --color-st-enriching: #4cc2f0;
+  --color-st-qualified: #c9f24a;
+  --color-st-syncing: #a98bf5;
+  --color-st-synced: #54d98a;
+  --color-st-failed: #f2706e;
+
+  --color-band-hot: #c9f24a;
+  --color-band-warm: #ffb454;
+  --color-band-cold: #5aa2f5;
+
+  --font-sans: "Hanken Grotesk Variable", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
-* {
-  box-sizing: border-box;
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--color-accent) 30%, transparent);
+  }
+  /* thin, theme-matching scrollbars for the internal scroll areas
+     (queue list, lead-detail panel) — the OS default renders as a bright
+     bar that clashes with the near-black surfaces */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dim);
+  }
 }
 
-body {
-  margin: 0;
-  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+/* staggered load-in for queue rows */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-main {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
-}
-
-h1 {
-  margin-bottom: 0.25rem;
-}
-
-section {
-  margin-top: 2rem;
-  padding: 1.25rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  text-align: left;
-  padding: 0.6rem 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-tbody tr:hover {
-  background: rgba(56, 189, 248, 0.08);
-}
-
-form {
-  display: grid;
-  gap: 0.75rem;
-  max-width: 460px;
-}
-
-label {
-  display: grid;
-  gap: 0.25rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-input,
-textarea {
-  padding: 0.5rem 0.6rem;
-  background: var(--bg);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font: inherit;
-}
-
-button {
-  padding: 0.55rem 1rem;
-  background: var(--accent);
-  color: #082f49;
-  border: 0;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: progress;
-}
-
-[role="alert"] {
-  color: #fca5a5;
-}
-
-a {
-  color: var(--accent);
-}
-
-blockquote {
-  margin: 0.5rem 0;
-  padding-left: 0.75rem;
-  border-left: 2px solid var(--border);
-  color: var(--muted);
-}
-
-dl {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0.25rem 1rem;
-}
-
-dt {
-  color: var(--muted);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

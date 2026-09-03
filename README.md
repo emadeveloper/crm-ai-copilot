@@ -55,12 +55,20 @@ one module plus one line in the composition root.
 
 ```
 services/api      FastAPI + Strawberry, hexagonal layers, in-process pipeline worker
-apps/web          React 19 + Vite installable PWA dashboard
+apps/web          React 19 + Vite installable PWA dashboard, Tailwind CSS v4 (@theme tokens)
 packages/shared   TypeScript API client generated from the API's OpenAPI schema (no drift)
 ```
 
 Pipeline: `POST /leads` → `received` → `enriching` → `qualified` → `syncing` → `synced` (or
 `failed`, retryable). Submission is non-blocking — the worker drains the queue.
+
+### Dashboard UI
+
+The dashboard follows an "operational precision" visual direction — near-black surfaces, one
+electric-lime accent, IBM Plex Mono for numbers, labels and status tags. Styling is **Tailwind
+CSS v4** via the `@tailwindcss/vite` plugin: design tokens live in a `@theme` block in
+`apps/web/src/index.css`, and Hanken Grotesk + IBM Plex Mono are self-hosted through `@fontsource`.
+Approved design canvas: <https://claude.ai/code/artifact/3cb26483-544e-4283-9e83-8f60089041f7>
 
 ## Data & privacy notice
 
